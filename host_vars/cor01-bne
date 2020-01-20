@@ -1,0 +1,31 @@
+---
+ansible_host: 192.168.255.5
+ansible_ssh_pass: cisco
+ansible_user: admin
+router_id: 192.168.10.5
+interfaces:
+  - name: "GigabitEthernet 0/0"
+    ip: 192.168.100.30
+    mask: 255.255.255.252
+    desc: "cor01.syd"
+  - name: "GigabitEthernet 1/0"
+    ip: 192.168.100.6
+    mask: 255.255.255.252
+    desc: "cor01.mel"
+  - name: "GigabitEthernet 2/0"
+    ip: 192.168.100.49
+    mask: 255.255.255.252
+    desc: "cor02.bne"
+  - name: "GigabitEthernet 3/0"
+    ip: 192.168.100.53
+    mask: 255.255.255.252
+    desc: "bdr01.bne"
+  - name: "GigabitEthernet 4/0"
+    ip: 192.168.100.77
+    mask: 255.255.255.252
+    desc: "bdr02.bne"
+  - name: "Loopback 0"
+    ip: 192.168.10.5
+    mask: 255.255.255.255
+    desc: "router-id"
+isis_net: 49.0000.192.168.010.005.00

@@ -1,0 +1,41 @@
+---
+
+- hosts: border
+  gather_facts: false
+  connection: local
+
+  tasks:
+
+    - name: Configure Basic BGP Configuration
+      ios_config:
+        parents: router bgp {{ bgp_asn }}
+        commands:
+          - bgp router-id {{ router_id }}
+          - maximum-paths 2
+    - name: Configure BGP Peer Group
+      ios_config:
+        parents: router bgp {{ bgp_asn }}
+        commands:
+          - neighbor {{ ibgp_peer_group }} peer-group
+          - neighbor {{ ibgp_peer_group }} update-source Loopback 0
+
+    - name: Configure Basic MP-BGP Neighbors
+      ios_config:
+        parents: router bgp {{ bgp_asn }}
+        commands:
+          - neighbor {{ item.ip }} remote-as {{ item.asn }}
+          - neighbor {{ item.ip }} description {{ item.desc }}
+          - neighbor {{ item.ip }} peer-group {{ item.peer_group }}
+      with_items:
+        - "{{ bgp_peers }}"
+
+    - name: Configure Neighbors for 6PE
+      ios_config:
+        parents: 
+          - router bgp {{ bgp_asn }}
+          - address-family ipv6 unicast
+        commands:
+          - neighbor {{ item.ip }} activate
+          - neighbor {{ ibgp_peer_group }} send-label
+      with_items:
+        - "{{ bgp_peers }}"

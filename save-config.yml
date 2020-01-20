@@ -1,0 +1,11 @@
+---
+
+- hosts: all
+  gather_facts: false
+  connection: local
+
+  tasks:
+
+   - name: Save Configuration
+     ios_config:
+       save_when: modified

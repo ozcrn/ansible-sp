@@ -1,0 +1,42 @@
+---
+ansible_host: 192.168.255.9
+ansible_ssh_pass: cisco
+ansible_user: admin
+router_id: 192.168.10.9
+interfaces:
+  - name: "GigabitEthernet 0/0"
+    ip: 192.168.100.54
+    mask: 255.255.255.252
+    desc: "cor01.bne"
+  - name: "GigabitEthernet 1/0"
+    ip: 192.168.100.58
+    mask: 255.255.255.252
+    desc: "cor02.bne"
+  - name: "Loopback 0"
+    ip: 192.168.10.9
+    mask: 255.255.255.255
+    desc: "router-id"
+isis_net: 49.0000.192.168.010.009.00
+ibgp_peer_group: IBGP
+bgp_asn: 100
+bgp_peers:
+  - ip: 192.168.10.8
+    desc: bdr01-syd
+    asn: 100
+    peer_group: IBGP
+  - ip: 192.168.10.7
+    desc: bdr01-mel
+    asn: 100
+    peer_group: IBGP
+  - ip: 192.168.10.10
+    desc: bdr02-mel
+    asn: 100
+    peer_group: IBGP
+  - ip: 192.168.10.11
+    desc: bdr02-syd
+    asn: 100
+    peer_group: IBGP
+  - ip: 192.168.10.12
+    desc: bdr02-bne
+    asn: 100
+    peer_group: IBGP

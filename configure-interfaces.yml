@@ -1,0 +1,18 @@
+---
+
+- hosts: all
+  gather_facts: false
+  connection: local
+
+  tasks:
+
+    - name: Configure Backbone Interfaces
+      ios_config:
+        parents: interface {{ item.name }}
+        commands:
+          - ip address {{ item.ip }} {{ item.mask }}
+#          - ipv6 address {{ item.ipv6 }}{{ item.mask_ipv6 }}
+          - description {{ item.desc }}
+          - no shutdown
+      with_items:
+        - "{{ interfaces }}"

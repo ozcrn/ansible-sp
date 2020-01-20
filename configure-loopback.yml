@@ -1,0 +1,21 @@
+---
+
+- hosts: all
+  gather_facts: false
+  connection: local
+
+  tasks:
+
+    - name: Configure Loopback
+      ios_config:
+        parents: "Interface Loopback 0"
+        lines:
+          - ip address {{ router_id }} 255.255.255.255
+
+    - name: Show Interfaces Brief
+      ios_command:
+        commands: show ip int brief | inc Loopback
+      register: output
+      
+    - name: Interfaces Output
+      debug: var=output.stdout_lines

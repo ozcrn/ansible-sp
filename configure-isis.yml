@@ -1,0 +1,25 @@
+---
+
+- hosts: all
+  gather_facts: false
+  connection: local
+
+  tasks:
+
+    - name: Configure Basic ISIS Parameters
+      ios_config:
+        parents: router isis
+        commands:
+          - net {{ isis_net }}
+          - is-type level-2
+          - metric-style wide
+          - hostname dynamic
+
+    - name: Enable ISIS on Interfaces
+      ios_config:
+        parents: interface {{ item.name }}
+        commands:
+          - ip router isis
+          - isis circuit-type level-2-only
+      with_items:
+        - "{{ interfaces }}"

@@ -1,0 +1,22 @@
+---
+
+- hosts: all
+  gather_facts: false
+  connection: local
+
+  tasks:
+
+    - name: Configure MPLS Router ID
+      ios_config:
+        commands: 
+          - mpls ldp router-id loopback 0
+
+    - name: Enable MPLS on Interfaces
+      ios_config:
+        parents: interface {{ item.name }}
+        commands:
+          - mpls ip
+      with_items:
+        - "{{ interfaces }}"
+      when:
+        - item.name != "Loopback 0"
